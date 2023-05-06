@@ -5,7 +5,8 @@ import { fetchPlugin } from "./plugin/fetch-plugin";
 let service: esbuild.Service;
 
 const bundler = async (rawCode: string) => {
-  if (!service) { //assign just one time
+  if (!service) {
+    //assign just one time
     service = await esbuild.startService({
       worker: true,
       //download and initialize esbuild from unpkg.com site
@@ -13,17 +14,31 @@ const bundler = async (rawCode: string) => {
     });
   }
   //transpile and bundle at the same time using esbuild
-  const result = await service.build({
-	entryPoints: ["index.js"],
-	bundle: true,
-	write: false,
-	plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
-	define: {
-	  "process.env.NODE_ENV": '"production"',
-	  global: "window",
-	},
-  });
-  return result.outputFiles[0].text;
+  try {
+    const result = await service.build({
+      entryPoints: ["index.js"],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
+      define: {
+        "process.env.NODE_ENV": '"production"',
+        global: "window",
+      },
+    });
+    return {
+      code: result.outputFiles[0].text,
+      err: "",
+    };
+  } catch (err) {
+    if (err instanceof Error) {
+      return {
+        code: "",
+        err: err.message,
+      };
+    } else {
+      throw err;
+    }
+  }
 };
 
 export default bundler;

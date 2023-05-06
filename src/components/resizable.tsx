@@ -15,18 +15,18 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
   useEffect(() => {
     let timer: any;
     const listener = () => {
-		if (timer) {
-			clearTimeout(timer);
-		}
-		setTimeout(() => { //not to make it laggy
-			setInnerHeight(window.innerHeight);
-			setInnerWidth(window.innerWidth);
-			//check if the bar is not hidden when resizing window
-			if(window.innerWidth * 0.75 < width)
-			{
-				setWidth(window.innerWidth * 0.75)
-			}
-		}, 100);
+      if (timer) {
+        clearTimeout(timer);
+      }
+      setTimeout(() => {
+        //not to make it laggy
+        setInnerHeight(window.innerHeight);
+        setInnerWidth(window.innerWidth);
+        //check if the bar is not hidden when resizing window
+        if (window.innerWidth * 0.75 < width) {
+          setWidth(window.innerWidth * 0.75);
+        }
+      }, 100);
     };
     window.addEventListener("resize", listener);
     return () => {
@@ -42,9 +42,9 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       resizeHandles: ["e"],
       maxConstraints: [innerWidth * 0.8, Infinity],
       minConstraints: [innerWidth * 0.2, Infinity],
-	  onResizeStop: (event, data) => {
-		setWidth(data.size.width);
-	  }
+      onResizeStop: (event, data) => {
+        setWidth(data.size.width);
+      },
     };
   } else {
     resizableProps = {

@@ -15,6 +15,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const [err, setErr] = useState("");
   const { updateCell } = useActions();
 
+  const initialValue = `import ReactDOM from 'react-dom';
+import React from 'react';
+const App = () => <h1></h1>
+ReactDOM.render(<App />, document.querySelector("#root"))`
+
   useEffect(() => {
     //not to load preview too much
     const timer = setTimeout(async () => {
@@ -34,7 +39,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
       <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
         <Resizable direction="horizontal">
           <CodeEditor
-            initialValue={cell.content}
+            initialValue={initialValue}
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>

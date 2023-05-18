@@ -38,11 +38,10 @@ const Preview: React.FC<PreviewProps> = ({ code, err }) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
-    // console.log(iframe.current.srcdoc)
     iframe.current.srcdoc = html;
     setTimeout(() => {
       iframe.current.contentWindow.postMessage(code, "*");
-    }, 1000);
+    }, 10);
   }, [code]);
   return (
     <div className="iframe-wrapper">

@@ -1,12 +1,14 @@
-interface ActionBarIconsProps {
+import "./action-bar-icon.css"
+
+interface ActionBarIconProps {
   onClickAction: Function;
   icon: string;
 }
 
-const ActionBarIcons: React.FC<ActionBarIconsProps> = ({ onClickAction, icon }) => {
+const ActionBarIcon: React.FC<ActionBarIconProps> = ({ onClickAction, icon }) => {
   return (
       <button
-        className="button is-primary is-small"
+        className="button is-small action-bar-icon"
         onClick={() => {onClickAction()}}
       >
         <span className="icon">
@@ -16,4 +18,4 @@ const ActionBarIcons: React.FC<ActionBarIconsProps> = ({ onClickAction, icon }) 
   );
 };
 
-export default ActionBarIcons;
+export default ActionBarIcon;

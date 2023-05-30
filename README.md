@@ -1,3 +1,8 @@
+# About this project
+I still haven't finished with this project, but you can try out principle features.
+Feel free to try it out !
+-> https://endearing-sunburst-eba81a.netlify.app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

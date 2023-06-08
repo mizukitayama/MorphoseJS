@@ -7,7 +7,7 @@ import { Cell } from "../state";
 import { useActions } from "../hooks/use-actions";
 
 interface CodeCellProps {
-  cell: Cell
+  cell: Cell;
 }
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
@@ -17,14 +17,18 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
   const initialValue = `import ReactDOM from 'react-dom';
 import React from 'react';
-const App = () => <h1></h1>
-ReactDOM.render(<App />, document.querySelector("#root"))`
+const App = () => {
+  return (
+    <>
+    </>
+  );
+}
+ReactDOM.render(<App />, document.querySelector("#root"))`;
 
   useEffect(() => {
     //not to load preview too much
     const timer = setTimeout(async () => {
       const output = await bundler(cell.content);
-      // console.log(output);
       setCode(output.code);
       setErr(output.err);
     }, 1000);
@@ -36,7 +40,13 @@ ReactDOM.render(<App />, document.querySelector("#root"))`
 
   return (
     <Resizable direction="vertical">
-      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          height: "calc(100% - 10px)",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <Resizable direction="horizontal">
           <CodeEditor
             initialValue={initialValue}

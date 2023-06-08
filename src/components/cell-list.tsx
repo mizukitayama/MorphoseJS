@@ -11,14 +11,17 @@ const CellList: React.FC = () => {
   const renderedCells = cells.map((cell) => (
     // used Fragment to resolve error
     <Fragment key={cell.id}>
-      <AddCell nextCellId={cell.id} />
       <CellListItem cell={cell} />
+      <AddCell previousCellId={cell.id} />
     </Fragment>
   ));
+
   return (
     <div>
+      <div className={cells.length === 0 ? "force-visible" : ""}>
+        <AddCell previousCellId={null} />
+      </div>
       {renderedCells}
-      <AddCell nextCellId={null} />
     </div>
   );
 };

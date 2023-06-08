@@ -8,7 +8,7 @@ interface ActionBarIconProps {
 const ActionBarIcon: React.FC<ActionBarIconProps> = ({ onClickAction, icon }) => {
   return (
       <button
-        className="button is-small action-bar-icon"
+        className="button is-small action-bar-icon is-primary"
         onClick={() => {onClickAction()}}
       >
         <span className="icon">

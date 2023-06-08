@@ -53,7 +53,7 @@ const cellsReducer = produce(
         state.order[newIndex] = action.payload.id;
         return;
 
-      case ActionType.INSERT_CELL_BEFORE:
+      case ActionType.INSERT_CELL_AFTER:
         const cell: Cell = {
           content: "",
           type: action.payload.type,
@@ -65,11 +65,11 @@ const cellsReducer = produce(
           (id) => id === action.payload.id
         );
         if (foundIndex < 0) { //index not found
-          //insert at the end of cells
-          state.order.push(cell.id);
+          //insert at the top of cells
+          state.order.unshift(cell.id);
         } else {
           //insert new id to array
-          state.order.splice(foundIndex, 0, cell.id);
+          state.order.splice(foundIndex + 1, 0, cell.id);
         }
         return state;
       default:

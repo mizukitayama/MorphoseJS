@@ -16,8 +16,8 @@ export interface DeleteCellAction {
 	payload: string; //id
 }
 
-export interface InsertCellBeforeAction {
-	type: ActionType.INSERT_CELL_BEFORE;
+export interface InsertCellAfterAction {
+	type: ActionType.INSERT_CELL_AFTER;
 	payload: {
 		//existing id where user wants to insert a cell before
 		//when null, insert at the end of existing cells
@@ -37,5 +37,5 @@ export interface UpdateCellAction {
 export type Action =
 	MoveCellAction
 	| DeleteCellAction
-	| InsertCellBeforeAction
+	| InsertCellAfterAction
 	| UpdateCellAction

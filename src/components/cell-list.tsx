@@ -5,7 +5,7 @@ import { Fragment } from "react";
 
 const CellList: React.FC = () => {
   const cells = useTypedSelector(({ cells: { order, data } }) =>
-    order.map((id) => data[id])
+    order ? order.map((id) => data[id]) : []
   );
 
   const renderedCells = cells.map((cell) => (

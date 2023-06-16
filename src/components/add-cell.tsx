@@ -36,3 +36,4 @@ const AddCell: React.FC<AddCellProps> = ({ previousCellId }) => {
 };
 
 export default AddCell;
+

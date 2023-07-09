@@ -14,6 +14,21 @@ interface CodeCellProps {
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const { updateCell, createBundle } = useActions();
   const bundle = useTypedSelector((state) => state.bundles?.[cell.id]);
+  // take all the code of previous cells
+  const cumulativeCode = useTypedSelector((state) => {
+    const { data, order } = state.cells;
+    const orderedCells = order.map(id => data[id]);
+    const cumulativeCode = [];
+    for (let c of orderedCells){
+      if (c.type === "code") {
+        cumulativeCode.push(c.content);
+      }
+      if (c.id === cell.id) { // add codes until current cell
+        break;
+      }
+    }
+    return cumulativeCode;
+  })
 
   const initialValue = `import ReactDOM from 'react-dom';
 import React from 'react';
@@ -28,19 +43,19 @@ ReactDOM.render(<App />, document.querySelector("#root"))`;
   useEffect(() => {
     //when the first time shows up the page
     if (!bundle) {
-      createBundle(cell.id, cell.content);
+      createBundle(cell.id, cumulativeCode.join("\n"));
       return;
     }
     //not to load preview too much
     const timer = setTimeout(async () => {
-      createBundle(cell.id, cell.content);
+      createBundle(cell.id, cumulativeCode.join("\n"));
     }, 500);
     return () => {
       //clear timeout every time input was changed
       clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cell.content, cell.id, createBundle]);
+  }, [cumulativeCode.join("\n"), cell.id, createBundle]);
   //createBundle is stable as in use-actions it changes only one time
 
   return (

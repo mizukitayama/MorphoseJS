@@ -18,7 +18,18 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const cumulativeCode = useTypedSelector((state) => {
     const { data, order } = state.cells;
     const orderedCells = order.map(id => data[id]);
-    const cumulativeCode = [];
+    // make show() function
+    const cumulativeCode = [`
+    const show = (value) => {
+      if (typeof value === "object") {
+        document.querySelector("#root").innerHTML = JSON.stringify(value);
+      } else if (value === undefined) {
+        document.querySelector("#root").innerHTML = "";
+      } else {
+        document.querySelector("#root").innerHTML = value;
+      }
+    }
+    `];
     for (let c of orderedCells){
       if (c.type === "code") {
         cumulativeCode.push(c.content);
@@ -30,15 +41,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     return cumulativeCode;
   })
 
-  const initialValue = `import ReactDOM from 'react-dom';
-import React from 'react';
-const App = () => {
-  return (
-    <>
-    </>
-  );
-}
-ReactDOM.render(<App />, document.querySelector("#root"))`;
+  const initialValue = 'show()';
 
   useEffect(() => {
     //when the first time shows up the page

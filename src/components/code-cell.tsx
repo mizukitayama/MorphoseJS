@@ -5,6 +5,7 @@ import Resizable from "./resizable";
 import { Cell } from "../state";
 import { useActions } from "../hooks/use-actions";
 import { useTypedSelector } from "../hooks/use-typed-selector";
+import "./code-cell.css"
 
 interface CodeCellProps {
   cell: Cell;
@@ -25,15 +26,22 @@ const App = () => {
 ReactDOM.render(<App />, document.querySelector("#root"))`;
 
   useEffect(() => {
+    //when the first time shows up the page
+    if (!bundle) {
+      createBundle(cell.id, cell.content);
+      return;
+    }
     //not to load preview too much
     const timer = setTimeout(async () => {
-      createBundle(cell.id, cell.content)
+      createBundle(cell.id, cell.content);
     }, 500);
     return () => {
       //clear timeout every time input was changed
       clearTimeout(timer);
     };
-  }, [cell.content, cell.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cell.content, cell.id, createBundle]);
+  //createBundle is stable as in use-actions it changes only one time
 
   return (
     <Resizable direction="vertical">
@@ -50,7 +58,13 @@ ReactDOM.render(<App />, document.querySelector("#root"))`;
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
-        {bundle && <Preview code={bundle.code} err={bundle.err} />}
+        {
+          !bundle || bundle.loading === true
+          ? <div className="progress-cover">
+            <progress className="progress is-small is-primary" max="100">Loading</progress>
+          </div>
+          : <Preview code={bundle.code} err={bundle.err} />
+        }
       </div>
     </Resizable>
   );

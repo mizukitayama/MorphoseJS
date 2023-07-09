@@ -5,7 +5,7 @@ import Resizable from "./resizable";
 import { Cell } from "../state";
 import { useActions } from "../hooks/use-actions";
 import { useTypedSelector } from "../hooks/use-typed-selector";
-import "./code-cell.css"
+import "./code-cell.css";
 
 interface CodeCellProps {
   cell: Cell;
@@ -58,13 +58,17 @@ ReactDOM.render(<App />, document.querySelector("#root"))`;
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
-        {
-          !bundle || bundle.loading === true
-          ? <div className="progress-cover">
-            <progress className="progress is-small is-primary" max="100">Loading</progress>
-          </div>
-          : <Preview code={bundle.code} err={bundle.err} />
-        }
+        <div className="iframe-wrapper">
+          {!bundle || bundle.loading === true ? (
+            <div className="progress-cover">
+              <progress className="progress is-small is-primary" max="100">
+                Loading
+              </progress>
+            </div>
+          ) : (
+            <Preview code={bundle.code} err={bundle.err} />
+          )}
+        </div>
       </div>
     </Resizable>
   );

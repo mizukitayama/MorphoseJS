@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
 import { store } from "./state";
 import CellList from "./components/cell-list";
+import "./style.css"
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         <Helmet>
           <title>MorphoseJS</title>
         </Helmet>
-        <div>
+        <div className="wrapper">
           <CellList />
         </div>
       </div>
